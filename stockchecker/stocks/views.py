@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import TickerForm
+from .tiingo import get_meta_data, get_price_data
 
 
 def index(request):
@@ -13,7 +14,10 @@ def index(request):
         form = TickerForm
     return render(request, 'index.html', {'form': form})
 
+
 def ticker(request, tid):
     context = {}
     context['ticker'] = tid
+    context['meta'] = get_meta_data(tid)
+    context['price'] = get_price_data(tid)
     return render(request, 'ticker.html', context)
